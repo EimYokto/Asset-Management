@@ -1,0 +1,729 @@
+{% extends "layouts/base.html" %}{%load static%}
+
+{% block title %} Software DataTable {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/buttons.dataTables.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/fixedColumns.dataTables.min.css' %}">
+<style>
+    thead input {
+        width: 100%;
+    }
+    div.container {
+        width: 80%;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Software</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Software</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">DataTable</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Data Table</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="float-right">
+                                            {% if perms.egatapp.add_software %}
+                                            <button type="button" href="#addEmployeeModal" class="btn btn-primary" data-toggle="modal"><i class="feather icon-plus"></i>Add New </button>
+                                            {% endif %}
+                                        </div>
+                                            <div class="table-responsive">
+                                                <table id="example" class="table table-striped" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                          <th>เลขทะเบียนทรัพย์สินสารสนเทศ</th>
+                                                          <th>ชื่อซอฟต์แวร์และเวอร์ชั่น/ชื่อทรัพย์สิน</th>
+                                                          <th>ผู้พัฒนา</th>
+                                                          <th>จำนวนลิขสิทธิ์</th>
+                                                          <th>ประเภทซอฟต์แวร์/หมวดทรัพย์สิน</th>
+                                                          <th>รายละเอียดซอฟต์แวร์/ระบบงาน</th>
+                                                          <th>ระดับความลับ (C)</th>
+                                                          <th>ระดับความถูกต้อง (I)</th>
+                                                          <th>ระดับความพร้อมใช้ (A)</th>
+                                                          <th>ผู้เป็นเจ้าของซอฟต์แวร์</th>
+                                                          <th>ที่เก็บซอฟต์แวร์</th>
+                                                          <th>วันที่ลงทะเบียนซอฟต์แวร์</th>
+                                                          <th>เลขทะเบียนทรัพย์สินฮาร์ดแวร์ และซอฟต์แวร์(ใช้อ้างอิง)</th>
+                                                          <th>สถานะการใช้งานซอฟต์แวร์</th>
+                                                          <th>รุ่นของซอฟต์แวร์</th>
+                                                          <th>ข้อมูล/รายละเอียดแสดงสิทธิ์การใช้ซอฟต์แวร์</th>
+                                                          <th>เอกสารอ้างอิงสำหรับประวัติการเปลี่ยนแปลงล่าสุด</th>
+                                                          <th>รุ่นของซอฟต์แวร์ล่าสุด</th>
+                                                          <th>อ้างอิงองค์ประกอบโครงสร้างด้านเทคโนโลยีสารสนเทศ(CI)ที่เกี่ยวข้อง</th>
+                                                          <th>ชื่อและข้อมูลติดต่อผู้ให้บริการ</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                          <th>Asset Code</th>
+                                                          <th>Asset Name</th>
+                                                          <th>Software Vendor</th>
+                                                          <th>License Unit</th>
+                                                          <th>Asset Type</th>
+                                                          <th>System Type</th>
+                                                          <th>Confidential</th>
+                                                          <th>Integrity</th>
+                                                          <th>Availability</th>
+                                                          <th>Owner</th>
+                                                          <th>Software Repository</th>
+                                                          <th>Registered_Date</th>
+                                                          <th>Asset Number</th>
+                                                          <th>Software Status</th>
+                                                          <th>Software Version</th>
+                                                          <th>License Info</th>
+                                                          <th>Latest Change</th>
+                                                          <th>Latest Software Version</th>
+                                                          <th>Related CI</th>
+                                                          <th>Vendor Contact</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        {% for x in Softwares %} 
+                                                        <tr>
+                                                            <td>
+                                                                {% if perms.egatapp.change_software %}
+                                                                <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal">
+                                                                    {{x.Asset_Code}}
+                                                                </a>
+                                                                {% else %}
+                                                                    {{x.Asset_Code}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{{x.Asset_Name}}</td>
+                                                            <td>{{x.Software_Vendor}}</td>
+                                                            <td>{{x.License_Unit}}</td>
+                                                            <td>{{x.Asset_Type}}</td>
+                                                            <td>{{x.System_Type}}</td>
+                                                            <td>{{x.Confidential}}</td>
+                                                            <td>{{x.Integrity}}</td>
+                                                            <td>{{x.Availability}}</td>
+                                                            <td>{{x.Owner}}</td>
+                                                            <td>{{x.Software_Repository}}</td>
+                                                            <td>{{x.Registered_Date|date:'d-m-Y' }}</td>
+                                                            <td>{{x.Asset_Number}}</td>
+                                                            <td>{{x.Software_Status}}</td>
+                                                            <td>{{x.Software_Version}}</td>
+                                                            <td>{{x.License_Info}}</td>
+                                                            <td>{{x.Latest_Change}}</td>
+                                                            <td>{{x.Latest_Software_Version}}</td>
+                                                            <td>{{x.Related_CI}}</td>
+                                                            <td>{{x.Vendor_Contact}}</td>                                 
+                                                    </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+<!-- Add Modal HTML -->
+ <div id="addEmployeeModal" class="modal fade" >
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <form action="{% url 'Software_DataTable_insert' %}" method="POST">
+        {% csrf_token %}
+       <div class="modal-header">      
+        <h4 class="modal-title">Add New</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       </div>
+       <div class="modal-body">
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6">   
+                <div class="form-group">
+                <label>ชื่อซอฟต์แวร์และเวอร์ชั่น/ชื่อทรัพย์สิน</label>
+                <input type="text" class="form-control" name="Asset_Name" required >
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ผู้พัฒนา</label>
+                <input type="text" class="form-control" name="Software_Vendor" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>จำนวนลิขสิทธิ์</label>
+                <input type="number" class="form-control" name="License_Unit" required>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ประเภทซอฟต์แวร์/หมวดทรัพย์สิน</label>
+                <input type="text" class="form-control" name="Asset_Type" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รายละเอียดซอฟต์แวร์/ระบบงาน</label>
+                <input type="text" class="form-control" name="System_Type" required>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความลับ (C)</label>
+                <select  name="Confidential" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                </div> 
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความถูกต้อง (I)</label>
+                <select  name="Integrity" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                </div>
+            </div>
+        </div> 
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความพร้อมใช้ (A)</label>
+                <select  name="Availability" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                </div> 
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ผู้เป็นเจ้าของซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="Owner" required>
+                </div> 
+            </div> 
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ที่เก็บซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="Software_Repository" required>
+                </div>
+            </div> 
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>วันที่ลงทะเบียนซอฟต์แวร์</label>
+                <input type="date" class="form-control" name="Registered_Date" required pattern="\d{4}-\d{2}-\d{2}">
+                </div> 
+            </div> 
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>เลขทะเบียนทรัพย์สินฮาร์ดแวร์ และซอฟต์แวร์(ใช้อ้างอิง)</label>
+                <input type="text" class="form-control" name="Asset_Number" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label >สถานะการใช้งานซอฟต์แวร์</label>
+                <select name="Software_Status" class="form-control">
+                    <option value="Available">Available</option>
+                    <option value="UnAvailable">UnAvailable</option>
+                </select>
+                </div> 
+            </div> 
+        </div>   
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รุ่นของซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="Software_Version" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ข้อมูล/รายละเอียดแสดงสิทธิ์การใช้ซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="License_Info" required>
+                </div> 
+            </div>
+        </div>       
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>เอกสารอ้างอิงสำหรับประวัติการเปลี่ยนแปลงล่าสุด</label>
+                <input type="text" class="form-control" name="Latest_Change" required>
+                </div>
+            </div> 
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รุ่นของซอฟต์แวร์ล่าสุด</label>
+                <input type="text" class="form-control" name="Latest_Software_Version" required>
+                </div> 
+            </div> 
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>อ้างอิงองค์ประกอบโครงสร้างด้านเทคโนโลยีสารสนเทศ(CI)ที่เกี่ยวข้อง</label>
+                <input type="text" class="form-control" name="Related_CI" required>
+                </div>
+            </div> 
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ชื่อและข้อมูลติดต่อผู้ให้บริการ</label>
+                <input type="text" class="form-control" name="Vendor_Contact" required>
+                </div>
+            </div>
+        </div>        
+       </div> <!-- class="modal-body" -->
+       <div class="modal-footer">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+        <input type="submit" class="btn btn-primary" value="Add">
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+
+<!-- Edit Modal HTML -->
+{% for x in Softwares %} 
+ <div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <form action="/Software_DataTable_edit/{{x.Asset_Code}}" method="POST">
+        {% csrf_token %}
+       <div class="modal-header">      
+        <h4 class="modal-title">Edit Software</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       </div>
+       <div class="modal-body">
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6">     
+                <div class="form-group">
+                <label>เลขทะเบียนทรัพย์สินสารสนเทศ</label>
+                <input type="text" class="form-control"  name="Asset_Code"  value="{{x.Asset_Code}}" readonly>
+                </div>
+            </div>
+            <div class="col-md-6">   
+                <div class="form-group">
+                <label>ชื่อซอฟต์แวร์และเวอร์ชั่น/ชื่อทรัพย์สิน</label>
+                <input type="text" class="form-control" name="Asset_Name" value="{{x.Asset_Name}}" required >
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ผู้พัฒนา</label>
+                <input type="text" class="form-control" name="Software_Vendor" value="{{x.Software_Vendor}}" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>จำนวนลิขสิทธิ์</label>
+                <input type="number" class="form-control" name="License_Unit" value="{{x.License_Unit}}" required>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ประเภทซอฟต์แวร์/หมวดทรัพย์สิน</label>
+                <input type="text" class="form-control" name="Asset_Type" value="{{x.Asset_Type}}" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รายละเอียดซอฟต์แวร์/ระบบงาน</label>
+                <input type="text" class="form-control" name="System_Type" value="{{x.System_Type}}" required>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความลับ (C)</label>
+                <select name="Confidential" class="form-control">
+                    {% if x.Confidential == 1 %}
+                    <option selected>1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Confidential == 2 %}
+                    <option >1</option>
+                    <option selected>2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Confidential == 3 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option selected>3</option>
+                    <option >4</option>
+                    {% elif x.Confidential == 4 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option selected>4</option>
+                    {% endif %}
+                </select>
+                </div> 
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความถูกต้อง (I)</label>
+                <select  name="Integrity" class="form-control">
+                    {% if x.Integrity == 1 %}
+                    <option selected>1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Integrity == 2 %}
+                    <option >1</option>
+                    <option selected>2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Integrity == 3 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option selected>3</option>
+                    <option >4</option>
+                    {% elif x.Integrity == 4 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option selected>4</option>
+                    {% endif %}
+                </select>
+                </div>
+            </div>
+        </div> 
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความพร้อมใช้ (A)</label>
+                <select  name="Availability" class="form-control">
+                    {% if x.Availability == 1 %}
+                    <option selected>1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Availability == 2 %}
+                    <option >1</option>
+                    <option selected>2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Availability == 3 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option selected>3</option>
+                    <option >4</option>
+                    {% elif x.Availability == 4 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option selected>4</option>
+                    {% endif %}
+                </select>
+                </div> 
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ผู้เป็นเจ้าของซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="Owner" value="{{x.Owner}}" required>
+                </div> 
+            </div> 
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ที่เก็บซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="Software_Repository" value="{{x.Software_Repository}}" required>
+                </div>
+            </div> 
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>วันที่ลงทะเบียนซอฟต์แวร์</label>
+                <input type="date" class="form-control" name="Registered_Date" value="{{x.Registered_Date|date:'Y-m-d' }}" required pattern="\d{4}-\d{2}-\d{2}">
+                </div> 
+            </div> 
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>เลขทะเบียนทรัพย์สินฮาร์ดแวร์ และซอฟต์แวร์(ใช้อ้างอิง)</label>
+                <input type="text" class="form-control" name="Asset_Number" value="{{x.Asset_Number}}" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>สถานะการใช้งานซอฟต์แวร์</label>
+                <select name="Software_Status" class="form-control">
+                    {% if x.Software_Status == "Available" %}
+                    <option value="{{x.Software_Status}}" selected>{{x.Software_Status}}</option>
+                    <option value="UnAvailable">UnAvailable</option>
+                    {% elif x.Software_Status == "UnAvailable" %}
+                    <option value="Available">Available</option>
+                    <option value="{{x.Software_Status}}" selected>{{x.Software_Status}}</option>
+                    {% endif %}
+                </select>
+                </div> 
+            </div> 
+        </div>   
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รุ่นของซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="Software_Version" value="{{x.Software_Version}}" required>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ข้อมูล/รายละเอียดแสดงสิทธิ์การใช้ซอฟต์แวร์</label>
+                <input type="text" class="form-control" name="License_Info" value="{{x.License_Info}}" required>
+                </div> 
+            </div>
+        </div>       
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>เอกสารอ้างอิงสำหรับประวัติการเปลี่ยนแปลงล่าสุด</label>
+                <input type="text" class="form-control" name="Latest_Change" value="{{x.Latest_Change}}" required>
+                </div>
+            </div> 
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รุ่นของซอฟต์แวร์ล่าสุด</label>
+                <input type="text" class="form-control" name="Latest_Software_Version" value="{{x.Latest_Software_Version}}" required>
+                </div> 
+            </div> 
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>อ้างอิงองค์ประกอบโครงสร้างด้านเทคโนโลยีสารสนเทศ(CI)ที่เกี่ยวข้อง</label>
+                <input type="text" class="form-control" name="Related_CI" value="{{x.Related_CI}}" required>
+                </div>
+            </div> 
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ชื่อและข้อมูลติดต่อผู้ให้บริการ</label>
+                <input type="text" class="form-control" name="Vendor_Contact" value="{{x.Vendor_Contact}}" required>
+                </div>
+            </div>
+        </div>        
+        </div> <!-- class="modal-body" -->
+       <div class="modal-footer">
+        {% if perms.egatapp.delete_software %}
+        <a href="#deleteEmployeeModal-{{forloop.counter}}" data-toggle="modal" class="btn btn-danger mr-auto">Delete</a>
+        {% endif %}
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+        <input type="submit" class="btn btn-info" value="Save">
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+   {% endfor %}
+   <!-- Delete Modal HTML -->
+{% for x in Softwares %}
+ <div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <form >
+       <div class="modal-header">      
+        <h4 class="modal-title">Delete Software</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       </div>
+       <div class="modal-body">     
+        <p>Are you sure you want to delete these Records?</p>
+        <p class="text-warning"><small>{{x.Asset_Code}} information Are Delete ?</small></p>
+       </div>
+       <div class="modal-footer">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+        <a href="/Software_DataTable_delete/{{x.Asset_Code}}" type="submit" class="btn btn-danger mr-auto">Delete</a>
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+   {% endfor %}
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script type="text/JavaScript"src="{%static '/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/jszip.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/pdfmake.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/vfs_fonts.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/buttons.html5.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/buttons.print.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/buttons.colVis.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/dataTables.select.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/dataTables.fixedColumns.min.js' %}"></script>
+
+<script type="text/JavaScript">
+    $(document).ready(function() {  
+       
+        $('#example thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#example thead');     
+   
+        $('#example').DataTable( {
+            dom: 'Brtip',
+            //"paging": false,
+            //"info":     false,
+            //lengthChange: false,
+            scrollX: true,
+            fixedColumns:   {
+                left: 0,
+                right: 0
+            },
+            buttons: [
+                {
+                    extend: 'colvisGroup',
+                    text: 'ด้านหน้า 4 แถว',
+                    show: [ 1, 2, 3, 4 ],
+                    hide: [ 5 ,6, 7, 8, 9, 10]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'ด้านหลัง 4 แถว',
+                    show: [ 5 ,6, 7, 8, 9, 10 ],
+                    hide: [ 1, 2, 3, 4]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Show all',
+                    show: ':hidden'
+                },
+                { 
+                    extend: 'colvis', 
+                    columns: ':not(.noVis)',
+                    collectionLayout: 'fixed columns',
+                },
+                    
+            ],
+            select: true,
+            orderCellsTop: true,
+            initComplete: function () {
+
+                var api = this.api();
+
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function (colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                        // On every keypress in this input
+                        $(
+                            'input',
+                            $('.filters th').eq($(api.column(colIdx).header()).index())
+                        )
+                            .off('keyup change')
+                            .on('change', function (e) {
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                var cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search(
+                                        this.value != ''
+                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                            : '',
+                                        this.value != '',
+                                        this.value == ''
+                                    )
+                                    .draw();
+                            })
+                            .on('keyup', function (e) {
+                                e.stopPropagation();
+
+                                $(this).trigger('change');
+                                $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+            },
+        } );
+
+    } );
+</script>
+{% endblock javascripts %}

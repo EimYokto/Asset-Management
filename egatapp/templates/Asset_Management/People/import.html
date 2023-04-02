@@ -1,0 +1,139 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} People Import {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">People</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">People</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Import</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Import</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="container">
+                                            <h3>Import Data</h3>
+                                            {% if error_message %}
+                                                    <div class="alert alert-success" role="alert">
+                                                        {{error_message}}
+                                                    </div>
+                                                {% endif %}    
+                                            <form method="post" class="col-12" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="input-group mb-3">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="importData" id="customFile" aria-describedby="customFile">
+                                                        <label for="formFile" class="custom-file-label" for="customFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <select name="file-format" class="form-control my-3">
+                                                    <option selected>Choose format...</option>
+                                                    <option>CSV</option>
+                                                    <option>JSON</option>
+                                                </select>
+                                                <button onclick="GFG_Fun()" class="btn btn-primary" type="submit">Import</button>
+                                            </form>
+                                                                                        
+                                            <script>
+                                                var up = document.getElementById('GFG_UP');
+                                                var down = document.getElementById('GFG_DOWN');
+                                                var file = document.getElementById("customFile");
+                                                  
+                                                function GFG_Fun() {
+                                                    if(file.files.length == 0 ){
+                                                        down.innerHTML = "Status : No files selected";
+                                                        
+                                                    } else {
+                                                        down.innerHTML = "Status : Some file is selected";
+                                                    }
+                                                }
+                                                
+                                            </script>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 col-md-6">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Import history</h5>
+                                            </div>
+                                            <div class="card-block">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Username</th>
+                                                            <th>comment</th>
+                                                            <th>comment</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>Mark</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Larry</td>
+                                                            <td>the Bird</td>
+                                                            <td>Mark</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    </script>
+{% endblock javascripts %}

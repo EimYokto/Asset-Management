@@ -1,0 +1,168 @@
+<!-- [ navigation menu ] start -->{%load static%} 
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
+            <a href="/" class="b-brand">               
+                <img src="{%static '/assets/EGAT-Logo.png' %}" width='50' >
+                <span class="b-title">Network Section</span>
+            </a>
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+        </div>
+        <div class="navbar-content scroll-div">
+            <ul class="nav pcoded-inner-navbar">
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Navigation</label>
+                </li>
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
+                    class="nav-item {% if 'index' in segment %} active {% endif %}">
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                            class="pcoded-mtext">Dashboard</span></a>
+                </li>
+                <li data-username="Profile Page" 
+                    class="nav-item {% if 'profile' in segment %} active {% endif %}">
+                    <a href="{% url 'profile' %}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                            <span class="pcoded-mtext">User Profile</span></a>
+                </li>
+                {% if user.is_staff %}                
+                <li class="nav-item pcoded-menu-caption">
+                    <label>FORMS & EMAIL</label>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'form' in segment %} active {% endif %}">
+                <a href="{% url 'form' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="feather icon-file-text"></i></span><span
+                        class="pcoded-mtext">Form</span></a>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'email' in segment %} active {% endif %}">
+                <a href="{% url 'email' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="feather icon-mail"></i></span><span
+                        class="pcoded-mtext">Email</span></a>
+                </li>
+                {% endif %}
+                {% if user.is_staff %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>ASSET MANAGEMENT</label>
+                </li>
+                {% if perms.egatapp.view_hardware %}
+                <li data-username="Table bootstrap datatable footable" 
+                    class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">Hardware</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="/Hardware_DataTable/" class="">DataTable</a></li>
+                        <li class=""><a href="/Hardware_History/" class="">History</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if perms.egatapp.view_software %}
+                <li data-username="Table bootstrap datatable footable" 
+                    class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">Software</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="/Software_DataTable/" class="">DataTable</a></li>
+                        <li class=""><a href="/Software_History/" class="">History</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if perms.egatapp.view_people %}
+                <li data-username="Table bootstrap datatable footable" 
+                    class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">People</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="/People_DataTable/" class="">DataTable</a></li>
+                        <li class=""><a href="/People_History/" class="">History</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if perms.egatapp.view_information %}
+                <li data-username="Table bootstrap datatable footable" 
+                    class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">Information</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="/Information_DataTable/" class="">DataTable</a></li>
+                        <li class=""><a href="/Information_History/" class="">History</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if perms.egatapp.view_in_house_service %}
+                <li data-username="Table bootstrap datatable footable" 
+                    class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">In-House Service</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="/In_house_Service_DataTable/" class="">DataTable</a></li>
+                        <li class=""><a href="/In_house_Service_History/" class="">History</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if perms.egatapp.view_external_service %}
+                <li data-username="Table bootstrap datatable footable" 
+                    class="nav-item pcoded-hasmenu">
+                    <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">External Service</span></a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="/External_service_DataTable/" class="">DataTable</a></li>
+                        <li class=""><a href="/External_service_History/" class="">History</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% else %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>ASSET MANAGEMENT</label>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'Hardware' in segment %} active {% endif %}">
+                <a href="{% url 'Hardware_export' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">Hardware</span></a>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'Software' in segment %} active {% endif %}">
+                <a href="{% url 'Software_export' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">Software</span></a>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'People' in segment %} active {% endif %}">
+                <a href="{% url 'People_export' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">People</span></a>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'Information' in segment %} active {% endif %}">
+                <a href="{% url 'Information_export' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">Information</span></a>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'In-House Service' in segment %} active {% endif %}">
+                <a href="{% url 'In_house_Service_export' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">In-House Service</span></a>
+                </li>
+                <li data-username="form elements advance componant validation masking wizard picker select"
+                class="nav-item {% if 'External Service' in segment %} active {% endif %}">
+                <a href="{% url 'External_service_export' %}" class="nav-link "><span class="pcoded-micon"><i
+                        class="fas fa-database"></i></span><span
+                        class="pcoded-mtext">External Service</span></a>
+                </li>
+                {% endif %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Pages</label>
+                </li>
+                <li data-username="Disabled Menu" class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-power"></i></span><span class="pcoded-mtext">Logout</span>
+                    </a>
+                </li>
+                            
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- [ navigation menu ] end -->

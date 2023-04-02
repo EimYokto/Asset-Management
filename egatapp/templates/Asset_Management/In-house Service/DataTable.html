@@ -1,0 +1,526 @@
+{% extends "layouts/base.html" %}{%load static%}
+
+{% block title %} In-house services DataTable {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/buttons.dataTables.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/fixedColumns.dataTables.min.css' %}">
+<style>
+    thead input {
+        width: 100%;
+    }
+    div.container {
+        width: 80%;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">In-house services</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">In-house services</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">DataTable</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Data Table</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="float-right">
+                                            {% if perms.egatapp.add_in_house_service %}
+                                            <button type="button" href="#addEmployeeModal" class="btn btn-primary" data-toggle="modal"><i class="feather icon-plus"></i>Add New </button>
+                                            {% endif %}
+                                        </div>
+                                            <div class="table-responsive">
+                                                <table id="example" class="table table-striped" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                          <th>เลขทะเบียนทรัพย์สินสารสนเทศ</th>
+                                                          <th>รายละเอียดของบริการ</th>
+                                                          <th>ประเภทของสารสนเทศ/หมวดทรัพย์สิน</th>
+                                                          <th>ระดับความลับ (C)</th>
+                                                          <th>ระดับความถูกต้อง (I)</th>
+                                                          <th>ระดับความพร้อมใช้ (A)</th>
+                                                          <th>ผู้รับผิดชอบ</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                          <th>Asset_Code</th>
+                                                          <th>Service_Detail</th>
+                                                          <th>Asset_Type</th>
+                                                          <th>Confidential</th>
+                                                          <th>Integrity</th>
+                                                          <th>Availability</th>
+                                                          <th>Responsible_Person</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        {% for x in In_house_services %} 
+                                                        <tr>
+                                                            <td>
+                                                                {% if perms.egatapp.change_in_house_service %}
+                                                                <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal">
+                                                                    {{x.Asset_Code}}
+                                                                </a>
+                                                                {% else %}
+                                                                    {{x.Asset_Code}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{{x.Service_Detail}}</td>
+                                                            <td>{{x.Asset_Type}}</td>
+                                                            <td>{{x.Confidential}}</td>
+                                                            <td>{{x.Integrity}}</td>
+                                                            <td>{{x.Availability}}</td>
+                                                            <td>{{x.Responsible_Person}}</td>                                            
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+<!-- Add Modal HTML -->
+ <div id="addEmployeeModal" class="modal fade" >
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <form action="{% url 'In_house_Service_DataTable_insert' %}"  method="POST">
+        {% csrf_token %}
+       <div class="modal-header">      
+        <h4 class="modal-title">Add New</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       </div>
+       <div class="modal-body">
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รายละเอียดของบริการ</label>
+                <input type="text" class="form-control" name="Service_Detail" required>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ประเภทของสารสนเทศ/หมวดทรัพย์สิน</label>
+                <input type="text" class="form-control" name="Asset_Type" required>
+                </div>
+            </div>
+            <div class="col-md-6">     
+                <div class="form-group">
+                <label>ระดับความลับ (C)</label>
+                <select  name="Confidential" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความถูกต้อง (I)</label>
+                <select  name="Integrity" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความพร้อมใช้ (A)</label>
+                <select  name="Availability" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                </div> 
+            </div>
+        </div> 
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ผู้รับผิดชอบ</label>
+                <input type="text" class="form-control" name="Responsible_Person"  required>
+                </div> 
+            </div> 
+        </div>     
+       </div> <!-- class="modal-body" -->
+       <div class="modal-footer">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+        <input type="submit" class="btn btn-primary" value="Add">
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+
+<!-- Edit Modal HTML -->
+{% for x in In_house_services %} 
+ <div id="editEmployeeModal-{{forloop.counter}}" class="modal fade">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <form action="/In_house_Service_DataTable_edit/{{x.Asset_Code}}" method="POST">
+        {% csrf_token %}
+       <div class="modal-header">      
+        <h4 class="modal-title">Edit In-house services</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       </div>
+       <div class="modal-body">
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>เลขทะเบียนทรัพย์สินสารสนเทศ</label>
+                <input type="text" class="form-control" name="Asset_Code" value="{{x.Asset_Code}}" readonly>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>รายละเอียดของบริการ</label>
+                <input type="text" class="form-control" name="Service_Detail" value="{{x.Service_Detail}}" required>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ประเภทของสารสนเทศ/หมวดทรัพย์สิน</label>
+                <input type="text" class="form-control" name="Asset_Type" value="{{x.Asset_Type}}" required>
+                </div>
+            </div>
+            <div class="col-md-6">     
+                <div class="form-group">
+                <label>ระดับความลับ (C)</label>
+                <select  name="Confidential"class="form-control">
+                    {% if x.Confidential == 1 %}
+                    <option selected>1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Confidential == 2 %}
+                    <option >1</option>
+                    <option selected>2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Confidential == 3 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option selected>3</option>
+                    <option >4</option>
+                    {% elif x.Confidential == 4 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option selected>4</option>
+                    {% endif %}
+                </select>
+                </div>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความถูกต้อง (I)</label>
+                <select  name="Integrity"class="form-control">
+                    {% if x.Integrity == 1 %}
+                    <option selected>1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Integrity == 2 %}
+                    <option >1</option>
+                    <option selected>2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Integrity == 3 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option selected>3</option>
+                    <option >4</option>
+                    {% elif x.Integrity == 4 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option selected>4</option>
+                    {% endif %}
+                </select>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ระดับความพร้อมใช้ (A)</label>
+                <select  name="Availability"class="form-control">
+                    {% if x.Availability == 1 %}
+                    <option selected>1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Availability == 2 %}
+                    <option >1</option>
+                    <option selected>2</option>
+                    <option >3</option>
+                    <option >4</option>
+                    {% elif x.Availability == 3 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option selected>3</option>
+                    <option >4</option>
+                    {% elif x.Availability == 4 %}
+                    <option >1</option>
+                    <option >2</option>
+                    <option >3</option>
+                    <option selected>4</option>
+                    {% endif %}
+                </select>
+                </div> 
+            </div>
+        </div> 
+        <!-- row -->
+        <div class="row register-form">
+            <div class="col-md-6"> 
+                <div class="form-group">
+                <label>ผู้รับผิดชอบ</label>
+                <input type="text" class="form-control" name="Responsible_Person"  value="{{x.Responsible_Person}}" required>
+                </div> 
+            </div> 
+        </div>     
+        </div> <!-- class="modal-body" -->
+       <div class="modal-footer">
+        {% if perms.egatapp.delete_in_house_service %}
+        <a href="#deleteEmployeeModal-{{forloop.counter}}" data-toggle="modal" class="btn btn-danger mr-auto">Delete</a>
+        {% endif %}
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+        <input type="submit" class="btn btn-info" value="Save">
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+   {% endfor %}
+    <!-- Delete Modal HTML -->
+{% for x in In_house_services %}
+<div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
+   <div class="modal-dialog">
+    <div class="modal-content">
+     <form >
+      <div class="modal-header">      
+       <h4 class="modal-title">Delete In-house services</h4>
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">     
+       <p>Are you sure you want to delete these Records?</p>
+       <p class="text-danger"><small>{{x.Asset_Code}} information Are Delete ?</small></p>
+      </div>
+      <div class="modal-footer">
+       <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+       <a href="/In_house_Service_DataTable_delete/{{x.Asset_Code}}" type="submit" class="btn btn-danger">Delete</a>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div>
+  {% endfor %}
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/JavaScript"src="{%static '/datatables/js/jquery.dataTables.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.buttons.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/jszip.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/pdfmake.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/vfs_fonts.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/buttons.html5.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/buttons.print.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/buttons.colVis.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.select.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.fixedColumns.min.js' %}"></script>
+
+<script type="text/JavaScript">
+    $(document).ready(function() {  
+       
+        $('#example thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#example thead');     
+   
+        $('#example').DataTable( {
+            dom: 'Brtip',
+            //"paging": false,
+            //"info":     false,
+            //lengthChange: false,
+            scrollX: true,
+            fixedColumns:   {
+                left: 0,
+                right: 0
+            },
+            buttons: [
+                {
+                    extend: 'colvisGroup',
+                    text: 'ด้านหน้า 4 แถว',
+                    show: [ 1, 2, 3, 4 ],
+                    hide: [ 5 ,6, 7, 8, 9, 10]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'ด้านหลัง 4 แถว',
+                    show: [ 5 ,6, 7, 8, 9, 10 ],
+                    hide: [ 1, 2, 3, 4]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Show all',
+                    show: ':hidden'
+                },
+                { 
+                    extend: 'colvis', 
+                    columns: ':not(.noVis)',
+                    collectionLayout: 'fixed columns',
+                },
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 
+                { 
+                    extend: 'spacer', 
+                    style: 'bar', 
+                    text: 'Export Files' 
+                },
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    bom: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    charset: 'utf-8',
+                    bom: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                    
+            ],
+            select: true,
+            orderCellsTop: true,
+            initComplete: function () {
+
+                var api = this.api();
+
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function (colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                        // On every keypress in this input
+                        $(
+                            'input',
+                            $('.filters th').eq($(api.column(colIdx).header()).index())
+                        )
+                            .off('keyup change')
+                            .on('change', function (e) {
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                var cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search(
+                                        this.value != ''
+                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                            : '',
+                                        this.value != '',
+                                        this.value == ''
+                                    )
+                                    .draw();
+                            })
+                            .on('keyup', function (e) {
+                                e.stopPropagation();
+
+                                $(this).trigger('change');
+                                $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+            },
+        } );
+
+    } );
+</script>
+{% endblock javascripts %}

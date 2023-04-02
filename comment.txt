@@ -1,0 +1,26 @@
+
+docker compose run web django-admin startproject egatproject .
+docker compose run web python3 manage.py startapp egatapp
+
+
+docker compose run django_gunicorn python manage.py makemigrations
+docker compose run django_gunicorn python manage.py migrate
+docker compose run django_gunicorn python manage.py collectstatic --clear
+docker compose run django_gunicorn python manage.py migrate --fake sessions zero
+
+python manage.py runserver
+
+docker-compose up -d
+
+venv\Scripts\activate
+egatproject\venv\Scripts\activate
+pip install -r requirements.txt
+
+docker-compose up --build
+
+docker compose run django_gunicorn python manage.py createsuperuser
+admin
+eimyokto@gmail.com
+root123456
+
+https://fusionauth.io/docs/v1/tech/reference/configuration

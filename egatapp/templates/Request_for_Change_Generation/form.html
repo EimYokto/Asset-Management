@@ -1,0 +1,129 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} {%load static%} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <style>
+        * {
+        box-sizing: border-box;
+        }
+        
+        #myInput {
+        background-position: 10px 12px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 20px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+        }
+        
+        #myUL {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        }
+        
+        #myUL li a {
+        border: 1px solid #ddd;
+        margin-top: -1px; /* Prevent double borders */
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px;
+        color: black;
+        display: block
+        }
+        
+        #myUL li a:hover:not(.header) {
+        background-color: #eee;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Form</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Form</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Form</h5>
+                                        </div>
+                                        <div class="card-block">
+                                           <div class="col-sm-8">
+                                            <input  type="search" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search for names..">
+                                            <ul id="myUL">
+                                                <li><a href="https://firebasestorage.googleapis.com/v0/b/dreamhome-5f46d.appspot.com/o/id1_th%20(2).pdf?alt=media&token=6cba7989-5fdf-4fcb-b0ab-8c0d1b9b0e9d" target="_blank"class="list-group-item list-group-item-action">คำร้องทั่วไป</a></li>
+                                                <li><a href="{% static 'forms/form.pdf' %}" target="_blank" class="list-group-item list-group-item-action">ข้อเสนออีเวนต์</a></li>
+
+                                                <li><a href="{% static 'forms/form.pdf' %}" target="_blank" class="list-group-item list-group-item-action">Billy</a></li>
+                                                <li><a href="{% static 'forms/form.pdf' %}" target="_blank" class="list-group-item list-group-item-action">Bob</a></li>
+
+                                                <li><a href="{% static 'forms/form.pdf' %}" target="_blank" class="list-group-item list-group-item-action">Calvin</a></li>
+                                                <li><a href="{% static 'forms/form.pdf' %}" target="_blank" class="list-group-item list-group-item-action">Christina</a></li>
+                                                <li><a href="{% static 'forms/form.pdf' %}" target="_blank" class="list-group-item list-group-item-action">Cindy</a></li>
+                                            </ul>
+
+                                            <script>
+                                            function myFunction() {
+                                                var input, filter, ul, li, a, i, txtValue;
+                                                input = document.getElementById("myInput");
+                                                filter = input.value.toUpperCase();
+                                                ul = document.getElementById("myUL");
+                                                li = ul.getElementsByTagName("li");
+                                                for (i = 0; i < li.length; i++) {
+                                                    a = li[i].getElementsByTagName("a")[0];
+                                                    txtValue = a.textContent || a.innerText;
+                                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                                        li[i].style.display = "";
+                                                    } else {
+                                                        li[i].style.display = "none";
+                                                    }
+                                                }
+                                            }
+                                            </script>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

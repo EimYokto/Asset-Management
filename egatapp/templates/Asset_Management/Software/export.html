@@ -1,0 +1,297 @@
+{% extends "layouts/base.html" %}{%load static%}
+
+{% block title %} Software Export {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+
+    <link rel="stylesheet" type="text/css" href="{%static '/datatables/css/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{%static '/datatables/css/buttons.dataTables.min.css' %}">
+
+<style>
+    thead input {
+        width: 100%;
+    }
+    div.container {
+        width: 80%;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Software</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Software</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Export</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Export</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="table-responsive">
+                                                <table id="example"class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                          <th>เลขทะเบียนทรัพย์สินสารสนเทศ</th>
+                                                          <th>ชื่อซอฟต์แวร์และเวอร์ชั่น/ชื่อทรัพย์สิน</th>
+                                                          <th>ผู้พัฒนา</th>
+                                                          <th>จำนวนลิขสิทธิ์</th>
+                                                          <th>ประเภทซอฟต์แวร์/หมวดทรัพย์สิน</th>
+                                                          <th>รายละเอียดซอฟต์แวร์/ระบบงาน</th>
+                                                          <th>ระดับความลับ (C)</th>
+                                                          <th>ระดับความถูกต้อง (I)</th>
+                                                          <th>ระดับความพร้อมใช้ (A)</th>
+                                                          <th>ผู้เป็นเจ้าของซอฟต์แวร์</th>
+                                                          <th>ที่เก็บซอฟต์แวร์</th>
+                                                          <th>วันที่ลงทะเบียนซอฟต์แวร์</th>
+                                                          <th>เลขทะเบียนทรัพย์สินฮาร์ดแวร์ และซอฟต์แวร์(ใช้อ้างอิง)</th>
+                                                          <th>สถานะการใช้งานซอฟต์แวร์</th>
+                                                          <th>รุ่นของซอฟต์แวร์</th>
+                                                          <th>ข้อมูล/รายละเอียดแสดงสิทธิ์การใช้ซอฟต์แวร์</th>
+                                                          <th>เอกสารอ้างอิงสำหรับประวัติการเปลี่ยนแปลงล่าสุด</th>
+                                                          <th>รุ่นของซอฟต์แวร์ล่าสุด</th>
+                                                          <th>อ้างอิงองค์ประกอบโครงสร้างด้านเทคโนโลยีสารสนเทศ(CI)ที่เกี่ยวข้อง</th>
+                                                          <th>ชื่อและข้อมูลติดต่อผู้ให้บริการ</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                          <th>Asset Code</th>
+                                                          <th>Asset Name</th>
+                                                          <th>Software Vendor</th>
+                                                          <th>License Unit</th>
+                                                          <th>Asset Type</th>
+                                                          <th>System Type</th>
+                                                          <th>Confidential</th>
+                                                          <th>Integrity</th>
+                                                          <th>Availability</th>
+                                                          <th>Owner</th>
+                                                          <th>Software Repository</th>
+                                                          <th>Registered_Date</th>
+                                                          <th>Asset Number</th>
+                                                          <th>Software Status</th>
+                                                          <th>Software Version</th>
+                                                          <th>License Info</th>
+                                                          <th>Latest Change</th>
+                                                          <th>Latest Software Version</th>
+                                                          <th>Related CI</th>
+                                                          <th>Vendor Contact</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        {% for x in Softwares %} 
+                                                        <tr>
+                                                            <td>{{x.Asset_Code}}</td>
+                                                            <td>{{x.Asset_Name}}</td>
+                                                            <td>{{x.Software_Vendor}}</td>
+                                                            <td>{{x.License_Unit}}</td>
+                                                            <td>{{x.Asset_Type}}</td>
+                                                            <td>{{x.System_Type}}</td>
+                                                            <td>{{x.Confidential}}</td>
+                                                            <td>{{x.Integrity}}</td>
+                                                            <td>{{x.Availability}}</td>
+                                                            <td>{{x.Owner}}</td>
+                                                            <td>{{x.Software_Repository}}</td>
+                                                            <td>{{x.Registered_Date|date:'d-m-Y' }}</td>
+                                                            <td>{{x.Asset_Number}}</td>
+                                                            <td>{{x.Software_Status}}</td>
+                                                            <td>{{x.Software_Version}}</td>
+                                                            <td>{{x.License_Info}}</td>
+                                                            <td>{{x.Latest_Change}}</td>
+                                                            <td>{{x.Latest_Software_Version}}</td>
+                                                            <td>{{x.Related_CI}}</td>
+                                                            <td>{{x.Vendor_Contact}}</td>            
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script type="text/JavaScript"src="{%static '/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/dataTables.buttons.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/jszip.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/pdfmake.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/vfs_fonts.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/buttons.html5.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/buttons.print.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/buttons.colVis.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/dataTables.select.min.js' %}"></script>
+    <script type="text/JavaScript"src="{%static '/datatables/js/dataTables.fixedColumns.min.js' %}"></script>
+
+    <script type="text/JavaScript">
+    $(document).ready(function() {
+        $('#example thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#example thead');     
+       
+        $('#example').DataTable( {               
+            dom: 'Brtip',
+            //"paging": false,
+            //"info":     false,
+            lengthChange: false,
+            //stateSave: true,
+            primary: true,
+            scrollX: true,
+            buttons: [
+                {
+                    extend: 'colvisGroup',
+                    text: 'ด้านหน้า 4 แถว',
+                    show: [ 1, 2, 3, 4 ],
+                    hide: [ 5 ,6, 7, 8, 9, 10]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'ด้านหลัง 4 แถว',
+                    show: [ 5 ,6, 7, 8, 9, 10 ],
+                    hide: [ 1, 2, 3, 4]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Show all',
+                    show: ':hidden'
+                },
+                { 
+                    extend: 'colvis', 
+                    columns: ':not(.noVis)',
+                    collectionLayout: 'fixed columns',
+                },
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 'spacer', 
+                'spacer', 'spacer', 
+                { 
+                    extend: 'spacer', 
+                    style: 'bar', 
+                    text: 'Export Files' 
+                },
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    bom: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    charset: 'utf-8',
+                    bom: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                    
+            ],
+            select: true,
+            orderCellsTop: true,
+            initComplete: function () {
+        
+                var api = this.api();
+    
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function (colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        $(cell).html('<input type="text" placeholder="' + title + '" />');
+    
+                        // On every keypress in this input
+                        $(
+                            'input',
+                            $('.filters th').eq($(api.column(colIdx).header()).index())
+                        )
+                            .off('keyup change')
+                            .on('change', function (e) {
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr = '({search})'; //$(this).parents('th').find('select').val();
+    
+                                var cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search(
+                                        this.value != ''
+                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                            : '',
+                                        this.value != '',
+                                        this.value == ''
+                                    )
+                                    .draw();
+                            })
+                            .on('keyup', function (e) {
+                                e.stopPropagation();
+    
+                                $(this).trigger('change');
+                                $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+            },
+        });
+    });
+    </script>
+    
+{% endblock javascripts %}

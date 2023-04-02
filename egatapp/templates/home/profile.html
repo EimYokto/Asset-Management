@@ -1,0 +1,129 @@
+{% extends "layouts/base.html" %}{%load static%} 
+
+{% block title %} Profile {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>User Profile</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row">
+                                                <div class="col-sm-6 mb-4">
+                                                    <div class="form-group">
+                                                        <label {% if not request.user.username %} class="text-danger" {% endif %} 
+                                                               for="exampleInputUsername">Username</label>
+                                                        <input type="text"
+                                                               {% if request.user.username %} value="{{ request.user.username }}" {% endif %}  
+                                                               class="form-control" id="exampleInputUsername" aria-describedby="UsernameHelp" readonly>
+                                                        {% if not request.user.username %}       
+                                                            <small id="UsernameHelp" class="form-text text-danger">
+                                                                You don't have an Username associated with this account.
+                                                            </small>
+                                                        {% endif %}    
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 mb-4">
+                                                    <div class="form-group">
+                                                        <label {% if not request.user.email %} class="text-danger" {% endif %} 
+                                                               for="exampleInputEmail1">Email address</label>
+                                                        <input type="email"
+                                                               {% if request.user.email %} value="{{ request.user.email }}" {% endif %}  
+                                                               class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
+                                                        {% if not request.user.email %}       
+                                                            <small id="emailHelp" class="form-text text-danger">
+                                                                You don't have an email address associated with this account.
+                                                            </small>
+                                                        {% endif %}    
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 mb-4">
+                                                    <div class="form-group">
+                                                        <label {% if not request.user.first_name %} class="text-danger" {% endif %} 
+                                                               for="exampleInputFirstName">First Name</label>
+                                                        <input type="text"
+                                                               {% if request.user.first_name %} value="{{ request.user.first_name }}" {% endif %}  
+                                                               class="form-control" id="exampleInputFirstName" aria-describedby="FirstNameHelp" readonly>
+                                                        {% if not request.user.first_name %}       
+                                                            <small id="FirstNameHelp" class="form-text text-danger">
+                                                                You don't have an Username associated with this account.
+                                                            </small>
+                                                        {% endif %}    
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 mb-4">
+                                                    <div class="form-group">
+                                                        <label {% if not request.user.last_name %} class="text-danger" {% endif %} 
+                                                               for="exampleInputLastName">Last Name</label>
+                                                        <input type="text"
+                                                               {% if request.user.last_name %} value="{{ request.user.last_name }}" {% endif %}  
+                                                               class="form-control" id="exampleInputLastName" aria-describedby="LastNameHelp" readonly>
+                                                        {% if not request.user.last_name %}       
+                                                            <small id="LastNameHelp" class="form-text text-danger">
+                                                                You don't have an Username associated with this account.
+                                                            </small>
+                                                        {% endif %}    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="d-flex align-items-center justify-content-center flex-column">
+                                                <div class="w-54 p-3">
+                                                    <img src="{%static '/assets/images/user/avatar-2.jpg' alt='profile image' class='img-fluid rounded-circle' %}">
+                                                </div>
+                                                <div class="text-center">
+                                                    <h4 class="font-weight-bold h6">
+                                                        {{ request.user.username }}
+                                                    </h4>
+                                                    <p class="font-italic text-muted">
+                                                        {% if request.user.email %} {{ request.user.email }} {% endif %}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="small font-weight-light mt-4 text-center text-muted">
+                                                <p>
+                                                    This page is your private space.
+                                                    <br/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

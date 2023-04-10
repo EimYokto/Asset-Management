@@ -352,9 +352,10 @@
                 <div class="form-group">
                 <label>สถานะทรัพย์สิน</label>
                 <select  name="Asset_Status" class="form-control">
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
+                    <option>Decommissioned</option>
+                    <option>Operating</option>
+                    <option>Not Ready</option>
+                    </select>
                 </select>
                 </div>
             </div>
@@ -439,7 +440,7 @@
             <div class="col-md-6"> 
                 <div class="form-group">
                 <label>ไอพีแอดเดรส</label>
-                <input type="text" class="form-control" name="IP_Address" placeholder="X.X.X.X" required  pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3}"> 
+                <input type="text" class="form-control" name="IP_Address" placeholder="X.X.X.X" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$"> 
                 </div>
             </div>
             <div class="col-md-6"> 
@@ -622,21 +623,7 @@
             <div class="col-md-6"> 
                 <div class="form-group">
                 <label>ที่ตั้ง</label>
-                <select  name="Location"class="form-control">
-                    {% if x.Location == 'A' %}
-                    <option selected>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    {% elif x.Location == 'B' %}
-                    <option>A</option>
-                    <option selected>B</option>
-                    <option>C</option>
-                    {% elif x.Location == 'C' %}
-                    <option>A</option>
-                    <option>B</option>
-                    <option selected>C</option>
-                    {% endif %}
-                </select>
+                <input type="text" class="form-control" name="Location" value="{{x.Location}}" required >
                 </div>
             </div> 
         </div>
@@ -691,18 +678,18 @@
                 <div class="form-group">
                 <label>สถานะทรัพย์สิน</label>
                 <select  name="Asset_Status"class="form-control">
-                    {% if x.Asset_Status == 'A' %}
-                    <option selected>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    {% elif x.Asset_Status == 'B' %}
-                    <option>A</option>
-                    <option selected>B</option>
-                    <option>C</option>
-                    {% elif x.Asset_Status == 'C' %}
-                    <option>A</option>
-                    <option>B</option>
-                    <option selected>C</option>
+                    {% if x.Asset_Status == 'Decommissioned' %}
+                    <option selected>Decommissioned</option>
+                    <option>Operating</option>
+                    <option>Not Ready</option>
+                    {% elif x.Asset_Status == 'Operating' %}
+                    <option>Decommissioned</option>
+                    <option selected>Operating</option>
+                    <option>Not Ready</option>
+                    {% elif x.Asset_Status == 'Not Ready' %}
+                    <option>Decommissioned</option>
+                    <option>Operating</option>
+                    <option selected>Not Ready</option>
                     {% endif %}
                 </select>
                 </div>
@@ -785,7 +772,7 @@
             <div class="col-md-6"> 
                 <div class="form-group">
                 <label>ไอพีแอดเดรส</label>
-                <input type="text" class="form-control" name="IP_Address" value="{{x.IP_Address}}" placeholder="X.X.X.X" required  pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3}">
+                <input type="text" class="form-control" name="IP_Address" value="{{x.IP_Address}}" placeholder="X.X.X.X" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$">
                 </div>
             </div>
             <div class="col-md-6"> 

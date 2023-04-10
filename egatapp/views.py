@@ -74,7 +74,7 @@ class EmailAttachementView(View):
             email = form.cleaned_data['email']
             files = request.FILES.getlist('attach')
             
-            mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
+            mail = EmailMessage(subject, message, 'eimyoktoadmin@email.com', [email])
             try:
                 for f in files:
                     mail.attach(f.name, f.read(), f.content_type)

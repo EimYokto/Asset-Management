@@ -9,6 +9,11 @@ CIA = (
 )
 # Create your models here.
 class Hardware(models.Model):
+    Hardware_Status= (
+        ('Decommissioned', 'Decommissioned'),
+        ('Operating','Operating'),
+        ('Not Ready','Not Ready'),
+    )
     Asset_Code = models.CharField(primary_key=True,max_length=255)
     Asset_Number = models.CharField(max_length=100)
     Asset_Type = models.CharField(max_length=100)
@@ -27,7 +32,7 @@ class Hardware(models.Model):
     Serial_Number = models.CharField(max_length=100)
     Remark = models.CharField(max_length=100)
     Description = models.CharField(max_length=100)
-    Asset_Status = models.CharField(max_length=100)
+    Asset_Status = models.CharField(choices= Hardware_Status,max_length=100)
     Hardware_Type = models.CharField(max_length=100)
     Software_Version = models.CharField(max_length=100)
     Software_License = models.CharField(max_length=100)

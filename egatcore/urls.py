@@ -21,7 +21,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 urlpatterns = [
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('admin', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path(env('admin'),admin.site.urls),
     #path('env_admin/', views.env_admin),
     

@@ -26,7 +26,6 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/code
       - static:/static
     build: .
   nginx:

@@ -1,11 +1,11 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/base.html" %}{%load static%}
 
 {% block title %} External service History {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.2.1/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/jquery.dataTables.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/buttons.dataTables.min.css' %}">
     <style>
         thead input {
             width: 100%;
@@ -66,7 +66,7 @@
                                                             <td>{{x.USER}}</td>
                                                             <td>{{x.Record}}</td>
                                                             <td>{{x.ACTION}}</td>
-                                                            <td>{{x.DATE_TIME}}</td>
+                                                            <td>{{x.DATE_TIME|date:'d-m-Y' }}</td>
                                                         </tr>
                                                         {% endfor %}
                                                     </tbody>
@@ -99,8 +99,8 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script type="text/JavaScript"src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" ></script>
-<script type="text/JavaScript"src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/jquery.dataTables.min.js' %}"></script>
+<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.fixedColumns.min.js' %}"></script>
 
 <script type="text/JavaScript">
 $(document).ready(function () {

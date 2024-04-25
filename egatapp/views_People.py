@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 @permission_required("egatapp.view_people", login_url="/login")
 def People_show(request):
     Peoples = People.objects.all()
-    #Peoples = People.objects.all()#[:5]
+    #Peoples = People.objects.all()[:5]
     #Peoples = People.objects.filter(position='นักศึกษา')
     return render(request,'Asset_Management/People/DataTable.html',{'Peoples':Peoples} )
 

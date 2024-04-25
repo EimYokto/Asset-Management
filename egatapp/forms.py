@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class EmailForm(forms.Form):
     email = forms.EmailField()
     subject = forms.CharField(max_length=100)
-    attach = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    attach = forms.FileField(widget=forms.ClearableFileInput(attrs={'allow_multiple_selected': True}))
     message = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}))
 
 class LoginForm(forms.Form):

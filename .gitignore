@@ -1,5 +1,6 @@
 # Object file
-*.o
+.env
+./data_postgres
 
-# Ada Library Information
-*.ali
+ # Ada Library Information
+# *.ali

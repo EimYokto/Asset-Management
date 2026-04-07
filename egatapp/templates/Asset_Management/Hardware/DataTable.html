@@ -1,12 +1,12 @@
-{% extends "layouts/base.html" %}{%load static%}
+{% extends "layouts/base.html" %}
 
 {% block title %} Hardware DataTable {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/jquery.dataTables.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/buttons.dataTables.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{%static '/datatables/css/fixedColumns.dataTables.min.css' %}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.2.1/css/fixedColumns.dataTables.min.css">
 <style>
     thead input {
         width: 100%;
@@ -352,10 +352,9 @@
                 <div class="form-group">
                 <label>สถานะทรัพย์สิน</label>
                 <select  name="Asset_Status" class="form-control">
-                    <option>Decommissioned</option>
-                    <option>Operating</option>
-                    <option>Not Ready</option>
-                    </select>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
                 </select>
                 </div>
             </div>
@@ -440,7 +439,7 @@
             <div class="col-md-6"> 
                 <div class="form-group">
                 <label>ไอพีแอดเดรส</label>
-                <input type="text" class="form-control" name="IP_Address" placeholder="X.X.X.X" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$"> 
+                <input type="text" class="form-control" name="IP_Address" placeholder="X.X.X.X" required  pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3}"> 
                 </div>
             </div>
             <div class="col-md-6"> 
@@ -623,7 +622,21 @@
             <div class="col-md-6"> 
                 <div class="form-group">
                 <label>ที่ตั้ง</label>
-                <input type="text" class="form-control" name="Location" value="{{x.Location}}" required >
+                <select  name="Location"class="form-control">
+                    {% if x.Location == 'A' %}
+                    <option selected>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {% elif x.Location == 'B' %}
+                    <option>A</option>
+                    <option selected>B</option>
+                    <option>C</option>
+                    {% elif x.Location == 'C' %}
+                    <option>A</option>
+                    <option>B</option>
+                    <option selected>C</option>
+                    {% endif %}
+                </select>
                 </div>
             </div> 
         </div>
@@ -678,18 +691,18 @@
                 <div class="form-group">
                 <label>สถานะทรัพย์สิน</label>
                 <select  name="Asset_Status"class="form-control">
-                    {% if x.Asset_Status == 'Decommissioned' %}
-                    <option selected>Decommissioned</option>
-                    <option>Operating</option>
-                    <option>Not Ready</option>
-                    {% elif x.Asset_Status == 'Operating' %}
-                    <option>Decommissioned</option>
-                    <option selected>Operating</option>
-                    <option>Not Ready</option>
-                    {% elif x.Asset_Status == 'Not Ready' %}
-                    <option>Decommissioned</option>
-                    <option>Operating</option>
-                    <option selected>Not Ready</option>
+                    {% if x.Asset_Status == 'A' %}
+                    <option selected>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    {% elif x.Asset_Status == 'B' %}
+                    <option>A</option>
+                    <option selected>B</option>
+                    <option>C</option>
+                    {% elif x.Asset_Status == 'C' %}
+                    <option>A</option>
+                    <option>B</option>
+                    <option selected>C</option>
                     {% endif %}
                 </select>
                 </div>
@@ -772,7 +785,7 @@
             <div class="col-md-6"> 
                 <div class="form-group">
                 <label>ไอพีแอดเดรส</label>
-                <input type="text" class="form-control" name="IP_Address" value="{{x.IP_Address}}" placeholder="X.X.X.X" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$">
+                <input type="text" class="form-control" name="IP_Address" value="{{x.IP_Address}}" placeholder="X.X.X.X" required  pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}.[0-9]{3}">
                 </div>
             </div>
             <div class="col-md-6"> 
@@ -822,16 +835,16 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script type="text/JavaScript"src="{%static '/datatables/js/jquery.dataTables.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.buttons.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/jszip.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/pdfmake.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/vfs_fonts.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/buttons.html5.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/buttons.print.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/buttons.colVis.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.select.min.js' %}"></script>
-<script type="text/JavaScript"src="{%static '/datatables/js/dataTables.fixedColumns.min.js' %}"></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" ></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js" ></script>
+<script type="text/JavaScript"src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" ></script>
+<script type="text/JavaScript"src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" ></script>
+<script type="text/JavaScript"src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" ></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js" ></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js" ></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js" ></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js" ></script>
+<script type="text/JavaScript"src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script>
 
 <script type="text/JavaScript">
     $(document).ready(function() {  

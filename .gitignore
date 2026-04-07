@@ -1,2 +1,5 @@
-.env
-./data_postgres/*
+# Object file
+*.o
+
+# Ada Library Information
+*.ali

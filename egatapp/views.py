@@ -26,10 +26,7 @@ def index(request):
     num_Information = Information.objects.count()
     num_In_house_service = In_house_service.objects.count()
     num_External_service = External_service.objects.count()
-
-    Historys = History.objects.all()
     
-
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(
         {'num_Hardware':num_Hardware,
@@ -39,7 +36,6 @@ def index(request):
         'num_Information': num_Information,
         'num_In_house_service':num_In_house_service,
         'num_External_service':num_External_service,
-        'Historys':Historys,
         'segment': 'index'}, request))
 
 @login_required(login_url="/login/")
@@ -78,7 +74,7 @@ class EmailAttachementView(View):
             email = form.cleaned_data['email']
             files = request.FILES.getlist('attach')
             
-            mail = EmailMessage(subject, message, 'eimyoktoadmin@email.com', [email])
+            mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
             try:
                 for f in files:
                     mail.attach(f.name, f.read(), f.content_type)
